@@ -1,0 +1,41 @@
+ID: project_composer
+_schema-version: '2.1'
+version: 0.0.1
+
+modules:
+ - name: pcw
+   type: java
+   path: pcw
+   parameters:
+      memory: 512M
+   provides:
+    - name: pcw_api
+      properties:
+         url: ${default-url}
+
+ - name: composer
+   type: java
+   path: composer
+   parameters:
+      memory: 512M
+   provides:
+    - name: composer_api
+      properties:
+         url: ${default-url}
+
+
+ - name: database
+   type: hdb
+   path: database
+   requires:
+    - name: hdi_database
+
+
+resources:
+ - name: hdi_database
+   parameters:
+      config:
+         schema: database
+   properties:
+      hdi-container-name: ${service-name}
+   type: com.sap.xs.hdi-container
